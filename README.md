@@ -1,53 +1,65 @@
-Rotation Slicing: Structure-Aware Analysis of Galaxy Clusters
+# Rotation Slicing: Structure-Aware Analysis of Galaxy Clusters
 
-Rotation Slicing is a Python package for analyzing galaxy clusters via rotational slicing of astronomical data cubes.
+**Rotation Slicing** is a Python package for analyzing galaxy clusters through systematic rotational slicing of astronomical data. It is designed for research workflows that require studying orientation-dependent structure, symmetry, and anisotropy in cluster-scale datasets.
 
 Will Nguyen*, Franklin & Marshall College
 (*core contributor)
 
-[Paper] [Documentation] [Examples] [BibTeX]
+[Paper] · [Documentation] · [Examples] · [BibTeX]
 
-Overview
+---
 
-Rotation Slicing is a lightweight, research-oriented Python package designed to analyze galaxy clusters by systematically slicing data across rotational angles. The package enables astronomers and computational researchers to study structural anisotropies, rotational symmetries, and orientation-dependent features in cluster-scale datasets.
+## Overview
 
-The package was developed as part of undergraduate research at Franklin & Marshall College and is built on top of the Astropy ecosystem, prioritizing clarity, reproducibility, and extensibility.
+Rotation Slicing provides a clean and extensible framework for rotating spatial data around a defined center and extracting slice-based statistics across angular intervals. Built on top of the **Astropy** ecosystem, the package emphasizes clarity, reproducibility, and compatibility with common astronomy data formats.
 
-Key goals:
+The project originated as an undergraduate research effort and is intended to be lightweight, readable, and easy to adapt for exploratory analysis or methodological extensions.
 
-Provide a clean abstraction for rotational slicing of astronomical data
+**Key features:**
 
-Integrate seamlessly with Astropy tables, coordinates, and units
+* Explicit rotational geometry and angle control
+* Native support for Astropy tables, coordinates, and units
+* Research-friendly abstractions suitable for experimentation and visualization
 
-Enable rapid experimentation and visualization for research workflows
+---
 
-Installation
-Prerequisites
+## Installation
 
-Python 3.10+
+### Prerequisites
 
-Git
+* Python 3.10 or higher
+* Git
+* Conda / Miniforge (recommended)
 
-Conda or Miniforge (recommended)
+### Clone the Repository
 
-Clone the Repository
+```bash
 git clone git@github.com:Will220805/RotationSlicing.git
 cd RotationSlicing
+```
 
-Create a Conda Environment
+### Create a Conda Environment
+
+```bash
 conda create -n rotationslicing python=3.11
 conda activate rotationslicing
+```
 
-Install the Package
+### Install the Package
+
+```bash
 pip install -e .
+```
 
+This installs Rotation Slicing in **editable mode**, allowing local source code changes to take effect immediately.
 
-This installs Rotation Slicing in editable mode, allowing you to modify the source code and immediately test changes.
+---
 
-Getting Started
+## Getting Started
 
-Below is a minimal example demonstrating how to perform a rotation slice on cluster data.
+Below is a minimal example demonstrating how to perform rotational slicing on cluster data.
 
+```python
 from rotationslicing import RotationSlicer
 from astropy.table import Table
 
@@ -61,31 +73,39 @@ slicer = RotationSlicer(
     angles=range(0, 180, 5)
 )
 
-# Perform slicing
+# Run slicing
 results = slicer.run()
+```
 
+The output consists of per-angle slices containing spatial and statistical summaries suitable for downstream analysis or visualization.
 
-The output includes per-angle slices containing spatial and statistical summaries suitable for downstream analysis or visualization.
+---
 
-Examples
+## Examples
 
-The examples/ directory contains notebooks demonstrating common workflows:
+The `examples/` directory contains Jupyter notebooks demonstrating common workflows:
 
-basic_rotation_slicing.ipynb
-Perform rotational slicing on a galaxy cluster dataset
+* **basic_rotation_slicing.ipynb**
+  Perform rotational slicing on a galaxy cluster dataset
 
-visualizing_slices.ipynb
-Plot density and orientation-dependent features
+* **visualizing_slices.ipynb**
+  Visualize density and orientation-dependent features
 
-performance_analysis.ipynb
-Benchmark slicing resolution vs. runtime
+* **performance_analysis.ipynb**
+  Explore slicing resolution versus runtime tradeoffs
 
-To run examples:
+To run the examples:
 
+```bash
 pip install -e ".[notebooks]"
 jupyter notebook examples/
+```
 
-Package Structure
+---
+
+## Package Structure
+
+```
 RotationSlicing/
 ├── rotationslicing/
 │   ├── __init__.py
@@ -96,56 +116,71 @@ RotationSlicing/
 ├── tests/
 ├── pyproject.toml
 └── README.md
+```
 
-Design Philosophy
+---
+
+## Design Philosophy
 
 Rotation Slicing follows three guiding principles:
 
-Explicit geometry — rotations and coordinate transforms are transparent and inspectable
+1. **Explicit geometry** — rotational transformations are transparent and inspectable
+2. **Astropy-native** — units, tables, and coordinates are first-class objects
+3. **Research-first ergonomics** — optimized for clarity and flexibility over premature abstraction
 
-Astropy-native — units, tables, and coordinates are first-class citizens
+---
 
-Research-first ergonomics — optimized for clarity over premature abstraction
-
-Development
+## Development
 
 To set up a development environment:
 
+```bash
 pip install -e ".[dev]"
-
+```
 
 Run tests:
 
+```bash
 pytest
-
+```
 
 Format code:
 
+```bash
 ruff format .
+```
 
-Contributing
+---
 
-Contributions are welcome!
-Please open an issue or submit a pull request. For major changes, consider discussing them first.
+## Contributing
 
-License
+Contributions are welcome. Please open an issue or submit a pull request. For substantial changes, consider starting a discussion first.
 
-This project is released under the MIT License.
-See the LICENSE file for details.
+---
 
-Acknowledgements
+## License
 
-This project was developed at Franklin & Marshall College as part of undergraduate research in computational astrophysics.
+This project is released under the MIT License. See the `LICENSE` file for details.
+
+---
+
+## Acknowledgements
+
+This project was developed at **Franklin & Marshall College** as part of undergraduate research in computational astrophysics.
 
 Special thanks to faculty mentors and the Astropy community.
 
-Citing Rotation Slicing
+---
+
+## Citing Rotation Slicing
 
 If you use Rotation Slicing in academic work, please cite:
 
+```bibtex
 @software{nguyen_rotationslicing_2025,
   title = {Rotation Slicing: Structure-Aware Analysis of Galaxy Clusters},
   author = {Nguyen, Will},
   year = {2025},
   url = {https://github.com/Will220805/RotationSlicing}
 }
+```
