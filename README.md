@@ -80,6 +80,7 @@ ax.grid()  # turn on a graticule
 # add a slice boundary showing the slice orientation and default dimensions stored in `rs`
 ax.plot_coord(rs.slicebound_inSkyframe())
 fig.add_axes(ax)
+```
 
 ---
 
