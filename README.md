@@ -2,7 +2,7 @@
 
 **Rotation Slicing** is a Python package for analyzing galaxy clusters through systematic rotational slicing of astronomical data. It is designed for research workflows that require studying orientation-dependent structure, symmetry, and anisotropy in cluster-scale datasets.
 
-Will Nguyen*, Franklin & Marshall College
+Elizabeth Praton*, Franklin & Marshall College
 (*core contributor)
 
 [Paper] · [Documentation] · [Examples] · [BibTeX]
@@ -11,17 +11,15 @@ Will Nguyen*, Franklin & Marshall College
 
 ## Overview
 
-Rotation Slicing provides a clean and extensible framework for rotating spatial data around a defined center and extracting slice-based statistics across angular intervals. Built on top of the **Astropy** ecosystem, the package emphasizes clarity, reproducibility, and compatibility with common astronomy data formats.
+**RotationSlicing** is a Python package developed at Franklin & Marshall College to support the exploration of galaxy clusters and large-scale structure through *arbitrarily oriented sky slices*. Built to integrate tightly with **Astropy**, the package allows users to select galaxies distributed along any great circle on the celestial sphere and visualize them simultaneously in projected sky coordinates and redshift space.
 
-The project originated as an undergraduate research effort and is intended to be lightweight, readable, and easy to adapt for exploratory analysis or methodological extensions.
+Unlike standard RA/Dec–aligned slicing or line-of-sight convolution methods, RotationSlicing enables slices at *any orientation*, making it possible to reveal tilted infall regions, asymmetries, and signatures of transverse or rotational motion that are otherwise obscured in redshift space. This capability is especially valuable for studying redshift-space distortions in galaxy clusters and group environments.
 
-**Key features:**
+At its core, RotationSlicing defines custom coordinate frames that rotate the sky into a user-specified orientation, producing uniform, flat slices rather than conic sections. The package provides both low-level building blocks—such as the `RotSlice` transformation class and specialized plotting axes—and higher-level interactive tools that combine sky projections and redshift ("pie") plots for rapid exploratory analysis.
 
-* Explicit rotational geometry and angle control
-* Native support for Astropy tables, coordinates, and units
-* Research-friendly abstractions suitable for experimentation and visualization
+Recent development has focused on improving usability, visualization, and maintainability in preparation for broader community use. New features include full-sky and hemisphere Aitoff projections, interactive explorer classes for real-time rotation and slicing, and a modern, test-driven development workflow aligned with Astropy contribution standards.
 
----
+RotationSlicing is designed for astronomers who want flexible, interpretable visualizations of galaxy distributions—from targeted cluster studies to wide-area survey data such as SDSS and DESI.
 
 ## Installation
 
@@ -60,24 +58,28 @@ This installs Rotation Slicing in **editable mode**, allowing local source code 
 Below is a minimal example demonstrating how to perform rotational slicing on cluster data.
 
 ```python
-from rotationslicing import RotationSlicer
-from astropy.table import Table
+import matplotlib.pyplot as plt
+from astropy.coordinates import SkyCoord
+from astropy import units as u
+from rotationslicing import RotSlice, SkyframeAxes
 
-# Load astronomical data
-data = Table.read("cluster_data.fits")
+# create RotSlice object `rs` centered on the given `lon0lat0` longitude, latitude spot on the sky,
+# and oriented at the given `spin0`angle measured clockwise from horizontal.
+rs = RotSlice(lon0lat0=SkyCoord(180, 20, unit="deg"),  # defaults to ICRS frame
+              spin0=30*u.deg)
 
-# Initialize slicer
-slicer = RotationSlicer(
-    data=data,
-    center=(ra_center, dec_center),
-    angles=range(0, 180, 5)
-)
+# create a SkyframeAxes centered on the `lon0lat0` stored in `rs`
+# keep the sky unrotated
 
-# Run slicing
-results = slicer.run()
-```
+rect = [0.1,0.1,0.8,0.8] # rectangle to draw the axes into, relative to the figure
+fig = plt.figure(figsize=(5, 5))
 
-The output consists of per-angle slices containing spatial and statistical summaries suitable for downstream analysis or visualization.
+ax = SkyframeAxes(fig,rect, lon0lat0=rs.lon0lat0, plot_size=130*u.deg, sky_rotation=0*u.deg)
+ax.grid()  # turn on a graticule
+
+# add a slice boundary showing the slice orientation and default dimensions stored in `rs`
+ax.plot_coord(rs.slicebound_inSkyframe())
+fig.add_axes(ax)
 
 ---
 
@@ -88,11 +90,11 @@ The `examples/` directory contains Jupyter notebooks demonstrating common workfl
 * **basic_rotation_slicing.ipynb**
   Perform rotational slicing on a galaxy cluster dataset
 
-* **visualizing_slices.ipynb**
-  Visualize density and orientation-dependent features
+* **ways_to_visualize_slices.ipynb**
+  Visualize your results using different frames
 
-* **performance_analysis.ipynb**
-  Explore slicing resolution versus runtime tradeoffs
+* **convenience_functions.ipynb**
+  Explore slicing functions that merge multiple functionalities together
 
 To run the examples:
 
@@ -109,11 +111,11 @@ jupyter notebook examples/
 RotationSlicing/
 ├── rotationslicing/
 │   ├── __init__.py
-│   ├── slicer.py
-│   ├── geometry.py
-│   └── utils.py
-├── examples/
-├── tests/
+│   ├── <Fill later>
+│   ├── <Fill later>
+│   └── <Fill later>
+├── <Fill later>
+├── <Fill later>
 ├── pyproject.toml
 └── README.md
 ```
@@ -177,10 +179,10 @@ Special thanks to faculty mentors and the Astropy community.
 If you use Rotation Slicing in academic work, please cite:
 
 ```bibtex
-@software{nguyen_rotationslicing_2025,
+@software{rotationslicing_2026,
   title = {Rotation Slicing: Structure-Aware Analysis of Galaxy Clusters},
-  author = {Nguyen, Will},
+  author = {Praton, Elizabeth},
   year = {2025},
-  url = {https://github.com/Will220805/RotationSlicing}
+  url = {https://github.com/epraton/rotationslicing}
 }
 ```
